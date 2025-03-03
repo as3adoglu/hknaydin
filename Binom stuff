@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int compute_factorial(int num) {
+    if (num < 0) return 0;
+    int fac = 1;
+    for (int j = num; j > 1; j--) {  
+        fac = fac * j;
+    }
+    return fac;
+}
+
+int get_coeff(int top, int bottom) {
+    int numerator = compute_factorial(top);
+    int denom = compute_factorial(bottom) * compute_factorial(top - bottom);
+    return numerator / denom;
+}
+
+void display_expression(int power, int base1, int base2) {
+    printf("(%d + %d)^%d = ", base1, base2, power);
+    
+    for (int term = 0; term <= power; term++) {  
+        int multiplier = get_coeff(power, term);
+        int exp1 = power - term;
+        int exp2 = term;
+        
+        if (term > 0) printf(" + ");
+        
+        
+        printf("%d*%d^%d*%d^%d", 
+              multiplier, base1, exp1, base2, exp2);
+    }
+    putchar('\n');  
+}
+
+int main() {
+    int p, val1, val2;
+    printf("Enter three integers (power base1 base2) ex.(3 4 5): ");
+    scanf("%d %d %d", &p, &val1, &val2);
+    
+    display_expression(p, val1, val2);
+    
+    return 0;
+}
